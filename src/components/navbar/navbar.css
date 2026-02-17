@@ -1,0 +1,19 @@
+/* Affichage horizontal de la navbar */
+.navbar-categories {
+	display: flex;
+	flex-direction: row;
+	list-style: none;
+	padding: 0;
+	margin: 0 auto;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	gap: 32px;
+	margin-top: 0.5rem;
+}
+
+.navbar-category-item {
+	font-size: 1.1rem;
+}
+
+
