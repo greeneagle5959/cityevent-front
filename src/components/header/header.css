@@ -10,12 +10,11 @@
 
 
 .headersimple-header {
-    background: var(--background-color);
-    color: var(--text-color);
-    transition: background 0.3s, color 0.3s;
+    background: #fff;
+    color: #222;
 }
 .headersimple-link {
-    color: var(--text-color) !important;
+    color: #222 !important;
 }
 .headersimple-switch {
     display: flex;

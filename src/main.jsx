@@ -9,7 +9,6 @@ import Connexion from './components/connexion/connexion.jsx';
 import InscrireUtilisateur from './components/inscription/inscription.jsx';
 import Evenements from './components/evenements/evenements.jsx';
 import Apropos from './components/apropos/apropos.jsx';
-import Slader from './components/carrousel/slader.jsx';
 import Headersimple from './components/header/headersimple.jsx';
 
 

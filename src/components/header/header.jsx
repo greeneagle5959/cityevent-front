@@ -7,23 +7,9 @@ import Connexion from '../connexion/connexion';
 
 
 
-import { useState, useEffect } from 'react';
 
 export default function Header() {
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem('darkMode');
-    return saved === 'true';
-  });
-
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add('theme-dark');
-    } else {
-      document.body.classList.remove('theme-dark');
-    }
-    localStorage.setItem('darkMode', darkMode);
-  }, [darkMode]);
 
   return (
     <header className="header-main bg-transparent text-white py-3">
@@ -34,15 +20,7 @@ export default function Header() {
             <span>CITY EVENTS</span>
           </Link>
           <nav className="d-flex align-items-center header-nav-gap">
-            <label className="form-switch header-switch">
-              <input
-                type="checkbox"
-                checked={darkMode}
-                onChange={() => setDarkMode((v) => !v)}
-                className="header-checkbox"
-              />
-              <span className="header-label">{darkMode ? 'Sombre' : 'Clair'}</span>
-            </label>
+            {/* Thème clair/sombre supprimé */}
             <button onClick={() => navigate("/connexion")} className="btn btn-primary ms-3"> 
               Connexion
             </button>

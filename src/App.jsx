@@ -4,7 +4,7 @@ import Header from './components/header/header.jsx';
 import Headersimple from './components/header/headersimple.jsx';
 import Navbar from './components/navbar/navbar.jsx';
 import Footer from './components/footer/footer.jsx';
-import Carrousel from './components/carrousel/slader.jsx';
+import ModernCarousel from './components/carrousel/ModernCarousel.jsx';
 import Event from './components/evenements/evenements.jsx';
 import Apropos from './components/apropos/apropos.jsx';
 import Connexion from './components/connexion/connexion.jsx';
@@ -33,8 +33,9 @@ function App() {
       ); })()}
       <Navbar /><br />
       <BarreRecherche /><br />
-      <Carrousel /><br />
+      <ModernCarousel /><br />
       <Event />
+      
       <Footer />
     </>
   );

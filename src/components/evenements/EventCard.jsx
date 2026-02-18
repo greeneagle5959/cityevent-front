@@ -66,6 +66,8 @@ export function EventCard({ event }) {
           </div>
         )}
       </div>
+
     </div>
+    
   );
 }
