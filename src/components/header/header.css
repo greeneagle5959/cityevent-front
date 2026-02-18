@@ -7,3 +7,44 @@
 ;
 
 }
+
+
+.headersimple-header {
+    background: var(--background-color);
+    color: var(--text-color);
+    transition: background 0.3s, color 0.3s;
+}
+.headersimple-link {
+    color: var(--text-color) !important;
+}
+.headersimple-switch {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.headersimple-checkbox {
+    margin-right: 8px;
+}
+.headersimple-label {
+    font-weight: 500;
+}
+
+
+.header-gap {
+    gap: 800px;
+}
+
+.header-nav-gap {
+    gap: 1rem;
+}
+.header-switch {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.header-checkbox {
+    margin-right: 8px;
+}
+.header-label {
+    font-weight: 500;
+}
