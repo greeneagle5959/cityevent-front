@@ -5,11 +5,9 @@ import Headersimple from './components/header/headersimple.jsx';
 import Navbar from './components/navbar/navbar.jsx';
 import Footer from './components/footer/footer.jsx';
 import ModernCarousel from './components/carrousel/ModernCarousel.jsx';
-import Event from './components/evenements/evenements.jsx';
-import Apropos from './components/apropos/apropos.jsx';
-import Connexion from './components/connexion/connexion.jsx';
-import Inscription from './components/inscription/inscription.jsx';
+
 import BarreRecherche from './components/barrecherche/barrecherche.jsx';
+import AfficheEvent from './components/evenements/afficheevent.jsx';
 
 
 
@@ -34,8 +32,8 @@ function App() {
       <Navbar /><br />
       <BarreRecherche /><br />
       <ModernCarousel /><br />
-      <Event />
-      
+
+      <AfficheEvent />
       <Footer />
     </>
   );

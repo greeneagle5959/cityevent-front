@@ -1,6 +1,6 @@
 import React from "react";
 import "./evenements.css";
-import { EventCard } from "./EventCard";
+
 import { mockEvents } from "./mockEvents";
 import "bootstrap/dist/css/bootstrap.min.css";
 
