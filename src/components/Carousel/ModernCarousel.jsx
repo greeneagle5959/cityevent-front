@@ -86,11 +86,6 @@ const ModernCarousel = () => {
             disableOnInteraction: false,
             pauseOnMouseEnter: false,
         }}
-      
-
-         
-            
- 
         coverflowEffect={{
           rotate: 0,
           stretch: 0,
