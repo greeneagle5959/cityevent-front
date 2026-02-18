@@ -1,7 +1,8 @@
 
-import Header from './components/page/header/header.jsx'
-import Navbar from './components/page/navbar/navbar.jsx'
-import Footer from './components/page/footer/footer.jsx'
+import Header from './components/header/header.jsx'
+import Navbar from './components/navbar/navbar.jsx'
+import Footer from './components/footer/footer.jsx'
+import ModernCarousel from './components/Carousel/ModernCarousel'
 
 
 
@@ -17,9 +18,9 @@ function App() {
     <>
       <Header />
       <Navbar />
+      {/* Carousel d'événements */}
+      <ModernCarousel />
       <Footer />
-
-   
     </>
   );
 }
