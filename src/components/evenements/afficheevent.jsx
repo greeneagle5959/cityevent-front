@@ -10,11 +10,17 @@ export default function AfficheEvent() {
     useEffect(() => {
         async function fetchData() {
             const response = await fetch("http://127.0.0.1:8000/api/v1//events_list");
-            const result = await response.json();
+            let result = null;
+            try {
+                const text = await response.text();
+                result = text ? JSON.parse(text) : null;
+            } catch (e) {
+                console.error("Erreur lors du parsing JSON:", e);
+                result = null;
+            }
             setData(result);
         }
         fetchData();
-
     }, []);
 
     const handleToggle = (id) => {

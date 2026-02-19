@@ -27,7 +27,18 @@ export default function Connexion() {
                 return;
             }
 
-            const data = await response.json();
+            let data = null;
+            try {
+                const text = await response.text();
+                data = text ? JSON.parse(text) : null;
+            } catch (e) {
+                setMessage("Erreur lors du parsing JSON de la connexion");
+                return;
+            }
+            if (!data || !data.token) {
+                setMessage("Réponse du serveur invalide");
+                return;
+            }
             localStorage.setItem("token", data.token);
 
             const connecterResponse = await fetch("http://127.0.0.1:8000/api/v1/users/connecter", {
@@ -38,7 +49,18 @@ export default function Connexion() {
                 setMessage("Impossible de récupérer l'utilisateur");
                 return;
             }
-            const connecterData = await connecterResponse.json();
+            let connecterData = null;
+            try {
+                const text = await connecterResponse.text();
+                connecterData = text ? JSON.parse(text) : null;
+            } catch (e) {
+                setMessage("Erreur lors du parsing JSON de l'utilisateur");
+                return;
+            }
+            if (!connecterData || !connecterData.roles) {
+                setMessage("Réponse utilisateur invalide");
+                return;
+            }
             if (connecterData.roles.includes("ROLE_ADMIN")) {
                 navigate("/adminDashboard");
             } else if (connecterData.roles.includes("ROLE_MODERATEUR")) {
