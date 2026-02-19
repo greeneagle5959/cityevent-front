@@ -1,4 +1,5 @@
 
+
 import Header from './components/header/header.jsx';
 import Navbar from './components/navbar/navbar.jsx';
 import Carousel from './components/carousel/carousel.jsx';
@@ -14,8 +15,8 @@ function App() {
     <>
       <Header />
       <Navbar />
-      <Carousel />
-      <AfficheEvent />
+  <Carousel />
+  <AfficheEvent />
     </>
   );
 }
