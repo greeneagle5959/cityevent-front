@@ -1,0 +1,182 @@
+.modern-carousel-wrapper {
+    background: transparent;
+    padding: 2.5rem 0 2.5rem 0;
+    overflow: hidden;
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 28px;
+    box-shadow: 0 6px 40px rgba(0,0,0,0.10);
+    min-height: 370px;
+}
+
+.swiper_container_modern {
+    height: 340px !important;
+    width: 100% !important;
+    padding-top: 0.5rem;
+    padding-bottom: 1.5rem;
+    position: relative;
+}
+
+.swiper-slide {
+    width: 340px !important; /* Largeur fixe pour l'effet coverflow */
+    height: 340px !important; /* Hauteur fixe pour l'effet coverflow */
+    position: relative;
+    border-radius: 20px;
+    /* C'est ici que se fait le reflet sous la carte */
+    -webkit-box-reflect: below 1px linear-gradient(transparent 70%, rgba(0,0,0,0.4));
+    transition: all 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* --- CARTE --- */
+.glass-card {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background: #121212;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: all 0.5s ease;
+    z-index: 2;
+}
+
+/* --- IMAGE --- */
+.card-image-wrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+}
+
+.card-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* On assombrit les cartes sur les côtés */
+    filter: brightness(0.5) grayscale(40%);
+    transition: all 0.5s ease;
+}
+
+/* --- ETAT ACTIF (Carte du milieu) --- */
+.swiper-slide-active {
+    z-index: 20;
+    width: 400px !important;
+    height: 340px !important;
+    box-shadow: 0 8px 40px 0 rgba(0,0,0,0.25), 0 0 0 4px var(--glow-color);
+    transition: box-shadow 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.swiper-slide-active .glass-card {
+    /* Bordure lumineuse dynamique */
+    border: 1px solid var(--glow-color);
+    box-shadow: 0 0 35px var(--glow-color), inset 0 0 20px rgba(0,0,0,0.5);
+}
+
+.swiper-slide-active img {
+    filter: brightness(1) grayscale(0%);
+    transform: none;
+    z-index: 1;
+}
+
+/* --- CONTENU --- */
+.card-content {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.swiper-slide-active .card-content {
+    opacity: 1;
+}
+
+/* --- BARRE DE PROGRESSION --- */
+.progress-bar-glow {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: var(--glow-color);
+    width: 0%;
+    z-index: 20;
+    opacity: 0;
+}
+
+
+.swiper-slide-active .progress-bar-glow {
+    opacity: 1;
+    animation: progressFill 3.5s linear infinite;
+}
+
+@keyframes progressFill {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+
+
+/* --- NAVIGATION FLÈCHES --- */
+.slider-controler {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 50; /* Au-dessus des images */
+    pointer-events: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5vw;
+}
+
+.slider-arrow {
+    pointer-events: auto;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.slider-arrow:hover {
+    background: white;
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+}
+
+.slider-arrow:hover svg {
+    color: #000; /* L'icône devient noire au survol */
+}
+
+/* Masquer les boutons défaut Swiper */
+.swiper-button-prev, .swiper-button-next {
+    display: none !important;
+}
+
+/* Adaptation Mobile */
+@media (max-width: 768px) {
+    .swiper-slide {
+        width: 280px !important;
+        height: 400px;
+    }
+    .slider-controler {
+        padding: 0 2vw;
+    }
+    .slider-arrow {
+        width: 45px;
+        height: 45px;
+    }
+}
