@@ -1,40 +1,20 @@
-
-
-import Header from './components/header/header.jsx';
-import Headersimple from './components/header/headersimple.jsx';
-import Navbar from './components/navbar/navbar.jsx';
-import Footer from './components/footer/footer.jsx';
-import ModernCarousel from './components/carrousel/ModernCarousel.jsx';
-
-import BarreRecherche from './components/barrecherche/barrecherche.jsx';
-import AfficheEvent from './components/evenements/afficheevent.jsx';
-
-
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
-
-
-
-
-
-
-
-
+import { useState, useEffect } from 'react'
+import './App.css'
+import Hero from './components/Hero/Hero.jsx';
+import Jumbotrons from './components/Jumbotrons/eventCards.jsx';
+import Carousel from './components/carousel/carousel';
+import Footer from './components/footer/Footer.jsx';
+import Evenements from './components/evenements/afficheevent.jsx';
+import Header from './components/header/Header.jsx';
 function App() {
-  return (
-    <>
-      {(() => { const showSimpleHeader = false; return showSimpleHeader ? (
-        <Headersimple />
-      ) : (
-        <Header />
-      ); })()}
-      <Navbar /><br />
-      <BarreRecherche /><br />
-      <ModernCarousel /><br />
-
-      <AfficheEvent />
-      <Footer />
+ 
+  return ( <>
+            <Header />
+			<Hero />
+			<Jumbotrons />
+			<Carousel />
+			<Evenements />
+			<Footer />
     </>
   );
 }

@@ -1,93 +1,133 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./inscription.css";
-
 import { useState } from "react";
-import { Route, Router } from "react-router-dom";
-import Headersimple from "../header/headersimple";
-import Footer from "../footer/footer";
+import Header from "../header/Header.jsx";
+import Footer from "../footer/Footer.jsx";
 
-function InscrireUtilisateur() {
-  const [nom, setNom] = useState("");
-  const [prenom, setPrenom] = useState("");
-  const [email, setEmail] = useState("");
-  const [mdp, setMdp] = useState("");
-  const [tel, setTel] = useState("");
-  const [message, setMessage] = useState("");
 
-  const formInscription = async (e) => {
-    e.preventDefault();
+function inscrireUtilisateur() {
 
-    const reponse = await fetch(
-      "http://127.0.0.1:8000/api/v1/users/inscription",
-      {
-        method: "POST",
-        headers: { "content-Type": "application/json" },
-        body: JSON.stringify({ nom, prenom, email, mdp, tel }),
-      },
-    );
-    const data = await reponse.json();
-    if (!reponse.ok) {
-      setMessage(data.erreur);
-      return;
+    const [nom, setNom] = useState('');
+    const [prenom, setPrenom] = useState('');
+    const [email, setEmail] = useState('');
+    const [mdp, setMdp] = useState('');
+    const [tel, setTel] = useState('');
+    const [message, setMessage] = useState('');
+
+    const formInscription = async (e) => {
+
+        e.preventDefault();
+
+        const reponse = await fetch('http://127.0.0.1:8000/api/v1/users/inscription', {
+            method: 'POST',
+            headers: { 'content-Type': 'application/json' },
+            body: JSON.stringify({ nom, prenom, email, mdp, tel, })
+        });
+        const data = await reponse.json();
+        if (!reponse.ok) {
+            setMessage(data.erreur);
+            return;
+
+        }
+        setMessage(data.success);
+        setNom('');
+        setPrenom('');
+        setEmail('');
+        setMdp('');
+        setTel('');
     }
-    setMessage(data.success);
-    setNom("");
-    setPrenom("");
-    setEmail("");
-    setMdp("");
-    setTel("");
-  };
-  return (
-    <div>
-      <Headersimple />
-      <div className="row mt-5 mb-4 mx-auto">
-        <div className="col-lg-7 mx-auto bg-light p-4 rounded shadow">
-          <h1 className="text-center mb-4">Formulaire D'inscription</h1>
-          <form className="form-group mb-3 lg-6 w-25 mx-auto" onSubmit={formInscription}>
-            {message && <div className="alert alert-danger">{message}</div>}
-            <label className="py-2"><h5>Nom :</h5></label>
-            <input
-              type="text"
-              value={nom}
-              onChange={(e) => setNom(e.target.value)}
-              className="form-control py-2"
-            />
-            <label className="py-2"><h5>Prenom :</h5></label>
-            <input
-              type="text"
-              value={prenom}
-              onChange={(e) => setPrenom(e.target.value)}
-              className="form-control py-2"
-            />
-            <label className="py-2"><h5>Email :</h5></label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="form-control py-2"
-            />
-            <label className="py-2"><h5>Mot de passe :</h5></label>
-            <input
-              type="text"
-              value={mdp}
-              onChange={(e) => setMdp(e.target.value)}
-              className="form-control py-2"
-            />
-            <label className="py-2 mt-2"><h5>Numero de telephone :</h5></label>
-            <input
-              type="tel"
-              value={tel}
-              onChange={(e) => setTel(e.target.value)}
-              className="form-control py-2"
-            />
-            <button type="submit" className="btn btn-primary mt-3">
-              Valider
-            </button>
-          </form>
+    return (
+        <div>
+            <Header scrolled={false} />
+            <div className="inscription-container">
+                <div className="inscription-wrapper">
+                    <div className="inscription-header">
+                        <h1 className="inscription-title">Formulaire D'inscription</h1>
+                        <p className="inscription-subtitle">Créez votre compte CityEvents</p>
+                    </div>
+
+                    <form className="inscription-form" onSubmit={formInscription}>
+                        {message && <div className={`form-message ${message.includes('succès') ? 'success' : 'error'}`}>{message}</div>}
+
+                        <div className="form-group-wrap">
+                            <div className="form-group-row">
+                                <div className="form-field">
+                                    <label htmlFor="nom" className="form-label">Nom</label>
+                                    <input
+                                        type="text"
+                                        id="nom"
+                                        value={nom}
+                                        onChange={(e) => setNom(e.target.value)}
+                                        className="form-input"
+                                        placeholder="Entrez votre nom"
+                                        required
+                                    />
+                                </div>
+
+                                <div className="form-field">
+                                    <label htmlFor="prenom" className="form-label">Prénom</label>
+                                    <input
+                                        type="text"
+                                        id="prenom"
+                                        value={prenom}
+                                        onChange={(e) => setPrenom(e.target.value)}
+                                        className="form-input"
+                                        placeholder="Entrez votre prénom"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-field">
+                                <label htmlFor="email" className="form-label">Email</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="form-input"
+                                    placeholder="Entrez votre email"
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-field">
+                                <label htmlFor="mdp" className="form-label">Mot de passe</label>
+                                <input
+                                    type="password"
+                                    id="mdp"
+                                    value={mdp}
+                                    onChange={(e) => setMdp(e.target.value)}
+                                    className="form-input"
+                                    placeholder="Entrez un mot de passe sécurisé"
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-field">
+                                <label htmlFor="tel" className="form-label">Numéro de téléphone</label>
+                                <input
+                                    type="tel"
+                                    id="tel"
+                                    value={tel}
+                                    onChange={(e) => setTel(e.target.value)}
+                                    className="form-input"
+                                    placeholder="Entrez votre numéro de téléphone"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <button type="submit" className="inscription-btn">
+                            Créer mon compte
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <Footer />
         </div>
-      </div>
-      <Footer />
-    </div>
-  );
+    );
+
+
 }
-export default InscrireUtilisateur;
+export default inscrireUtilisateur;

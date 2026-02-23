@@ -1,0 +1,214 @@
+* {
+    box-sizing: border-box;
+    color: #ffffff;
+}
+
+.blackBag {
+    background: #000000;
+    padding: 40px 20px !important;
+    min-height: 100vh;
+}
+
+.blackBag h1 {
+    text-align: center;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 48px !important;
+    margin-bottom: 50px !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.container {
+    padding: 0 !important;
+}
+
+.event-card-maxwidth {
+    max-width: 100%;
+}
+
+.card {
+    background: #1a1a1a !important;
+    border: 2px solid #ffffff !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1) !important;
+}
+
+.card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.2) !important;
+    border-color: #ffffff !important;
+    background: #252525 !important;
+}
+
+.event-card-img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    grayscale: 0.3;
+}
+
+.card:hover .event-card-img {
+    transform: scale(1.05);
+    grayscale: 0;
+}
+
+.card-body {
+    padding: 25px !important;
+}
+
+.event-main-info {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 15px !important;
+    border-left: 4px solid #ffffff !important;
+}
+
+.event-main-info p {
+    margin: 0 !important;
+}
+
+.card-title {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 24px !important;
+    margin-bottom: 15px !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.colorWhite {
+    color: #e0e0e0 !important;
+}
+
+.event-info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.event-info-item i {
+    color: #ffffff !important;
+    font-size: 16px;
+}
+
+.text-primary {
+    color: #ffffff !important;
+}
+
+.btn-outline-primary {
+    border: 2px solid #ffffff !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    border-radius: 8px !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.4) !important;
+}
+
+.btn-outline-secondary {
+    border: 2px solid #ffffff !important;
+    color: #ffffff !important;
+    background-color: transparent !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    border-radius: 8px !important;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+.border-top {
+    border-top: 2px solid rgba(255, 255, 255, 0.3) !important;
+    background: rgba(255, 255, 255, 0.02) !important;
+}
+
+.description-section {
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.practical-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.info-block {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 3px solid #ffffff;
+}
+
+.info-block-title {
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info-block-content {
+    font-size: 13px;
+    line-height: 1.8;
+    color: #ffffff;
+}
+
+.category-badge {
+    display: inline-block;
+    background: #ffffff;
+    color: #000000;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.text-success {
+    color: #ffffff !important;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .practical-info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .card-title {
+        font-size: 18px !important;
+    }
+    
+    .blackBag h1 {
+        font-size: 32px !important;
+    }
+    
+    .event-card-img {
+        height: 200px;
+    }
+}
