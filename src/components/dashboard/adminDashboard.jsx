@@ -32,17 +32,29 @@ function AdminDashboard() {
 
     const loadUsers = async () => {
         try {
-            const [meRes, modRes, admRes] = await Promise.all([
-                fetch(`${API}/users/connecter`, { headers }),
+            const meRes = await fetch(`${API}/users/connecter`, { headers });
+            if (!meRes.ok) {
+                setMessage("Session invalide, reconnectez-vous");
+                return;
+            }
+
+            const me = await meRes.json();
+            setPrenom(me.prenom || "");
+            setCurrentUserId(me.userId ?? null);
+
+            const roles = Array.isArray(me.roles) ? me.roles : [];
+            if (!roles.includes("ROLE_ADMIN")) {
+                setMessage("Accès réservé aux admins. Connectez-vous avec un compte admin.");
+                setModerators([]);
+                setAdmins([]);
+                return;
+            }
+
+            const [modRes, admRes] = await Promise.all([
                 fetch(`${API}/users/get_Mode`, { headers }),
                 fetch(`${API}/users/get_admin`, { headers }),
             ]);
 
-            if (meRes.ok) {
-                const me = await meRes.json();
-                setPrenom(me.prenom || "");
-                setCurrentUserId(me.userId ?? null);
-            }
             if (!modRes.ok || !admRes.ok) {
                 setMessage("Impossible de charger la gestion des comptes");
                 return;
