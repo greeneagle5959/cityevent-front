@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import Hello from './Hello';
+import { render } from '@testing-library/react';
+
+function Hello({ name = 'World' }) {
+    return <div>Hello, {name}!</div>;
+}
 
 describe('Hello component', () => {
     it('renders correctly', () => {

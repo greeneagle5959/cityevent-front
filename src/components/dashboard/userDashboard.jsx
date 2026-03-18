@@ -8,6 +8,7 @@ function UserDashboard() {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [prenom, setPrenom] = useState('');
+    const [message, setMessage] = useState('');
 
     const tokenId = localStorage.getItem("token");
 
@@ -17,7 +18,7 @@ function UserDashboard() {
     };
     const handleDelete = async (eventId) => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/v1/events/${eventId}/delete`,
+            await fetch(`http://127.0.0.1:8000/api/v1/events/${eventId}/delete`,
                 {
                     method: "DELETE",
                     headers: { Authorization: "Bearer " + tokenId }
@@ -26,9 +27,12 @@ function UserDashboard() {
 
             setData(prev => prev.filter(ev => ev.id !== eventId));
 
-        } catch (e) {
+        } catch {
             alert("Erreur serveur");
         }
+    };
+    const handleEdit = (eventId) => {
+        navigate(`/afficheevents?edit=${eventId}`);
     };
     useEffect(() => {
 
@@ -50,15 +54,27 @@ function UserDashboard() {
             setPrenom(connecterData.prenom);
             const userId = connecterData.userId;
 
+            if (!userId) {
+                setMessage("Utilisateur connecté invalide");
+                return;
+            }
+
             const response = await fetch(
-                `http://127.0.0.1:8000/api/v1/events_by_user/${userId}/disply`
+                `http://127.0.0.1:8000/api/v1/events_by_user/${userId}`,
+                {
+                    headers: { Authorization: "Bearer " + tokenId }
+                }
             );
+            if (!response.ok) {
+                setMessage("Impossible de charger les événements");
+                return;
+            }
             const data = await response.json();
-            setData(data);
+            setData(Array.isArray(data) ? data : []);
         }
         fetchData();
 
-    }, []);
+    }, [tokenId]);
     return (
         <div>
             <header className="ud-hero">
@@ -79,6 +95,7 @@ function UserDashboard() {
             </header>
 
             <section className="ud-grid">
+                {message && <div className="alert alert-danger">{message}</div>}
                 {data && data.map((event) => (
                     <article key={event.id} className="ud-card">
                         <div className="ud-card-head">

@@ -14,7 +14,7 @@ export default function AfficheEvent() {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch("http://127.0.0.1:8000/api/v1//events_list");
+            const response = await fetch("http://127.0.0.1:8000/api/v1/events_list");
             let result = null;
             try {
                 const text = await response.text();
@@ -104,7 +104,7 @@ export default function AfficheEvent() {
                                             <div>
                                                 <span className="colorWhite" style={{ fontSize: '14px' }}>À partir de</span>
                                                 <div style={{ fontSize: '24px', fontWeight: '700', color: '#ffffff' }}>
-                                                    {event.price ? event.price.toFixed(2) : "--"}€
+                                                    {event.price_place ?? "--"}€
                                                 </div>
                                             </div>
                                             <button className="btn btn-outline-primary btn-sm mt-2" onClick={() => handleToggle(uniqueId)}>
@@ -118,7 +118,7 @@ export default function AfficheEvent() {
                                 <div className="border-top pt-4 mt-2 px-4 pb-4 colorWhite description-section">
                                     <div style={{ marginBottom: '20px' }}>
                                         <h6 style={{ color: '#ffffff', fontWeight: '700', fontSize: '18px', marginBottom: '15px', textTransform: 'uppercase', letterSpacing: '1px' }}>📝 Description</h6>
-                                        <p style={{ lineHeight: '1.8', fontSize: '14px' }}>{event.description_evenement}</p>
+                                        <p style={{ lineHeight: '1.8', fontSize: '14px' }}>{event.description_event || "Aucune description"}</p>
                                     </div>
 
                                     <div className="practical-info-grid">

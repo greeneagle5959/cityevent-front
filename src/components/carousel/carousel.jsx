@@ -20,13 +20,31 @@ import './carousel.css';
 const Carousel = () => {
 
     const [data, setData] = useState(null);
-    //const [openDescriptionId, setOpenDescriptionId] = useState(null);
+    const [isSponsored, setIsSponsored] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch("http://127.0.0.1:8000/api/v1/events/listEventsSponsored");
-            const result = await response.json();
-            setData(result);
+            try {
+                const response = await fetch("http://127.0.0.1:8000/api/v1/events/listEventsSponsored");
+                if (response.ok) {
+                    const result = await response.json();
+                    setIsSponsored(true);
+                    setData(Array.isArray(result) ? result : []);
+                    return;
+                }
+
+                // Fallback: si aucun event sponsorisé, on affiche la liste simple.
+                setIsSponsored(false);
+                const fallback = await fetch("http://127.0.0.1:8000/api/v1/events_list");
+                if (!fallback.ok) {
+                    setData([]);
+                    return;
+                }
+                const fallbackData = await fallback.json();
+                setData(Array.isArray(fallbackData) ? fallbackData : []);
+            } catch {
+                setData([]);
+            }
         }
         fetchData();
 
@@ -34,8 +52,52 @@ const Carousel = () => {
 
 
 
+    // Chargement en cours
+    if (data === null) return null;
+
+    // Empty state : aucun événement disponible
+    if (data.length === 0) {
+        return (
+            <section
+                className="modern-carousel-wrapper"
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '280px' }}
+            >
+                <div style={{ textAlign: 'center', color: '#fff', padding: '2rem 1rem' }}>
+                    <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>🎭</div>
+                    <h3 style={{ color: '#ff6c2e', fontWeight: 'bold', fontSize: '1.3rem', marginBottom: '0.5rem' }}>
+                        Aucun événement sponsorisé pour le moment
+                    </h3>
+                    <p style={{ color: '#aaa', fontSize: '0.9rem' }}>
+                        De nouvelles expériences arrivent bientôt&nbsp;— revenez nous voir&nbsp;!
+                    </p>
+                </div>
+            </section>
+        );
+    }
+
     return (
         <div className="modern-carousel-wrapper">
+            {/* Notice discrète quand on affiche les événements en fallback */}
+            {!isSponsored && (
+                <div style={{
+                    textAlign: 'center',
+                    marginBottom: '1.2rem',
+                }}>
+                    <span style={{
+                        display: 'inline-block',
+                        padding: '0.35rem 1.2rem',
+                        background: 'rgba(255,108,46,0.12)',
+                        border: '1px solid rgba(255,108,46,0.35)',
+                        borderRadius: '99px',
+                        color: '#ff6c2e',
+                        fontSize: '0.78rem',
+                        fontWeight: 600,
+                        letterSpacing: '0.02em',
+                    }}>
+                        💡 Aucun événement sponsorisé · Voici nos derniers événements
+                    </span>
+                </div>
+            )}
             <Swiper
                 modules={[Autoplay, EffectCoverflow, Pagination, Navigation]}
                 effect={'coverflow'}
@@ -69,7 +131,7 @@ const Carousel = () => {
                         {/* Injection de la couleur pour l'effet Néon */}
                         <div
                             className="glass-card group"
-                            style={{ '--glow-color': event.title }}
+                            style={{ '--glow-color': '#ff6c2e' }}
                         >
 
                             {/* Image */}
@@ -84,11 +146,11 @@ const Carousel = () => {
                             </div>
 
                             <div className="flex justify-between items-start">
-                                <span className="bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold border border-white/20 uppercase tracking-wide shadow-[0_0_5px_var(--glow-color)] position-relative top-5 left-4" style={{ color: event.nom_evenement }}>
+                                <span className="bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold border border-white/20 uppercase tracking-wide shadow-[0_0_5px_var(--glow-color)] position-relative top-5 left-4" style={{ color: '#ff6c2e' }}>
                                     {event.nom_evenement} </span>
                                 <div
                                     className="px-3 py-1.5 rounded-lg font-bold text-sm shadow-[0_0_10px_var(--glow-color)] position-absolute top-4 right-4"
-                                    style={{ backgroundColor: event.nom_evenement }}
+                                    style={{ backgroundColor: '#ff6c2e' }}
                                 >
                                     {event.price_place}
                                 </div>
@@ -116,7 +178,7 @@ const Carousel = () => {
                                     </div>
                                     <button
                                         className="rounded-lg font-bold uppercase text-xs tracking-widest transition-all duration-300 hover:-translate-y-1 shadow-[0_0_10px_var(--glow-color)] hover:bg-white hover:text-[var(--glow-color)] flex items-center justify-center text-white mt-2 position-absolute right-1.2rem bottom-1.2rem"
-                                        style={{ backgroundColor: event.nom_evenement, whiteSpace: 'nowrap', fontSize: '0.75rem', justifyContent: 'center', padding: '0.5rem 1rem', position: 'absolute', right: '1.2rem', bottom: '1.2rem' }}
+                                        style={{ backgroundColor: '#ff6c2e', whiteSpace: 'nowrap', fontSize: '0.75rem', justifyContent: 'center', padding: '0.5rem 1rem', position: 'absolute', right: '1.2rem', bottom: '1.2rem' }}
                                     >
                                         <Ticket className="w-4 h-4 " />
                                         Réserver

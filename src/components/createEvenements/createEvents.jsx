@@ -4,7 +4,6 @@ import "./createEvents.css";
 
 function CreateEvent() {
 
-    const [userId, setUserId] = useState(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [address, setAddress] = useState('');
@@ -86,7 +85,7 @@ function CreateEvent() {
             setCityName('');
             setCategoryName('');
             setImages([]);
-        } catch (err) {
+        } catch {
             setMessage("Erreur serveur ");
         }
     };

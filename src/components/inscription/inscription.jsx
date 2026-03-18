@@ -5,7 +5,7 @@ import { useState } from "react";
 import Footer from "../footer/footer";
 
 
-function inscrireUtilisateur() {
+function InscrireUtilisateur() {
 
     const [nom, setNom] = useState('');
     const [prenom, setPrenom] = useState('');
@@ -91,4 +91,4 @@ function inscrireUtilisateur() {
 
 
 }
-export default inscrireUtilisateur;
+export default InscrireUtilisateur;
