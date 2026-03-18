@@ -1,12 +1,12 @@
 .modern-carousel-wrapper {
-    background: transparent;
+    background: #000000;
     padding: 2.5rem 0 2.5rem 0;
     overflow: hidden;
     position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
-    border-radius: 28px;
-    box-shadow: 0 6px 40px rgba(0,0,0,0.10);
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    border-radius: 0;
+    box-shadow: none;
     min-height: 370px;
 }
 

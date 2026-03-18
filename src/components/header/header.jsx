@@ -1,31 +1,62 @@
+import { useState } from 'react'
+import { Search, Menu, X } from 'lucide-react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import './header.css';
 
-import { Link, useNavigate } from 'react-router-dom';
-import "./header.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+function Header({ scrolled }) {
+	const [menuOpen, setMenuOpen] = useState(false)
+	const navigate = useNavigate()
+	const location = useLocation()
 
+	const handleNavClick = (e, sectionId) => {
+		e.preventDefault()
 
+		const handleScroll = () => {
+			if (sectionId === '') {
+				window.scrollTo({ top: 0, behavior: 'smooth' })
+			} else {
+				const element = document.getElementById(sectionId)
+				if (element) {
+					element.scrollIntoView({ behavior: 'smooth' })
+				}
+			}
+		}
 
+		if (location.pathname !== '/') {
+			navigate('/')
+			setTimeout(handleScroll, 100)
+		} else {
+			handleScroll()
+		}
 
+		setMenuOpen(false)
+	}
 
-
-export default function Header() {
-    const navigate = useNavigate();
-
-    return (
-        <header className=" d-flex justify-content-between container  bg-transparent text-white ">
-            <div className="d-flex  ">
-                <Link to="/" className="d-flex align-items-center gap-3 h3 fw-bold text-black text-decoration-none header-link ">
-                    <img id="logoimg" src="/img/logo/logoimg.png" alt="City Event logo" />
-                    <span>CITY EVENTS</span>
-
-                </Link>
-            </div>
-            <nav className="d-flex align-items-center ">
-                {/* Thème clair/sombre supprimé */}
-                <button onClick={() => navigate("/connexion")} className="btn btn-primary mx-auto">
-                    Connexion
-                </button>
-            </nav>
-        </header>
-    );
+	return (<>
+		<header className={`header ${scrolled ? 'header-scrolled' : ''}`}>
+			<div className="header-container">
+				<a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); setMenuOpen(false); }} className="logo">
+					<img src="public/img/logo/logoimg.png" alt="Logo" className="logo-img" />
+					<span className="logo-text">CityEvents</span>
+				</a>
+				<nav className={`nav ${menuOpen ? 'nav-open' : ''}`}>
+					<a href="#" onClick={(e) => handleNavClick(e, '')} className="nav-link">Accueil</a>
+					<a href="#events" onClick={(e) => handleNavClick(e, 'evenements')} className="nav-link">Événements</a>
+					<a href="#about" onClick={(e) => handleNavClick(e, 'about')} className="nav-link">A propos</a>
+					<a href="#contact" onClick={(e) => handleNavClick(e, 'contact')} className="nav-link">Contact</a>
+				</nav>
+				<div className="header-actions">
+					<button className="btn btn-primary" onClick={() => { navigate('/connexion'); setMenuOpen(false); }}>Connexion</button>
+					<button
+						className="menu-toggle"
+						onClick={() => setMenuOpen(!menuOpen)}
+					>
+						{menuOpen ? <X size={24} /> : <Menu size={24} />}
+					</button>
+				</div>
+			</div>
+		</header>
+	</>)
 }
+
+export default Header

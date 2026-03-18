@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./inscription.css";
 import { useState } from "react";
-import Headersimple from "../header/headersimple";
+
 import Footer from "../footer/footer";
 
 
@@ -38,7 +38,7 @@ function inscrireUtilisateur() {
     }
     return (<div>
 
-        <Headersimple />
+
         <div className="row mt-5 mb-4 mx-auto">
             <div className="col-lg-5 mx-auto bg-light rounded shadow">
                 <h1 className="text-center ">Formulaire D'inscription</h1>

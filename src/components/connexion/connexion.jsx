@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./connexion.css";
 import { useNavigate } from "react-router-dom";
 import Footer from "../footer/footer";
-import HeaderSimple from "../header/headersimple";
+
 
 export default function Connexion() {
     const navigate = useNavigate();
@@ -15,6 +15,7 @@ export default function Connexion() {
     const formConnexion = async (e) => {
 
         e.preventDefault();
+        // recuperation du token 
         try {
             const response = await fetch("http://127.0.0.1:8000/api/v1/users/login", {
                 method: 'POST',
@@ -26,12 +27,11 @@ export default function Connexion() {
                 setMessage("Email ou mot de passe incorrect");
                 return;
             }
-
             let data = null;
             try {
                 const text = await response.text();
                 data = text ? JSON.parse(text) : null;
-            } catch (e) {
+            } catch {
                 setMessage("Erreur lors du parsing JSON de la connexion");
                 return;
             }
@@ -41,6 +41,7 @@ export default function Connexion() {
             }
             localStorage.setItem("token", data.token);
 
+            // dereger lutilisateur au dashbord en fonction du role
             const connecterResponse = await fetch("http://127.0.0.1:8000/api/v1/users/connecter", {
                 method: 'GET',
                 headers: { Authorization: "Bearer " + data.token }
@@ -53,7 +54,7 @@ export default function Connexion() {
             try {
                 const text = await connecterResponse.text();
                 connecterData = text ? JSON.parse(text) : null;
-            } catch (e) {
+            } catch {
                 setMessage("Erreur lors du parsing JSON de l'utilisateur");
                 return;
             }
@@ -69,16 +70,16 @@ export default function Connexion() {
                 navigate("/userDashboard");
             }
 
-
-        } catch (erreur) {
+        } catch {
             setMessage("erreur de connexion");
         }
 
     };
     return (
         <>
-            <HeaderSimple />
+
             <br />
+            {message && <div className="alert alert-info col-lg-5 mx-auto text-center">{message}</div>}
             <form onSubmit={formConnexion} className="row mt-5 mb-4 mx-auto">
                 <div className="col-lg-5 mx-auto bg-light p-4 rounded shadow">
                     <div className="form-group lg-4  mx-auto">
