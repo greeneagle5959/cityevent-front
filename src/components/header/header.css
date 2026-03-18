@@ -170,3 +170,23 @@
   align-items: center;
   justify-content: center;
 }
+
+.btn-dashboard {
+  background: linear-gradient(135deg, #ff6c2e, #ff8f5a);
+  color: #fff;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 108, 46, 0.35);
+  white-space: nowrap;
+}
+
+.btn-dashboard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 108, 46, 0.55);
+  color: #fff;
+}

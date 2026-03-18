@@ -1,12 +1,30 @@
 import { useState } from 'react'
-import { Search, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './header.css';
 
+function getDashPath() {
+	const token = localStorage.getItem('token')
+	if (!token) return null
+	try {
+		const payload = JSON.parse(atob(token.split('.')[1]))
+		const roles   = payload.roles ?? []
+		if (roles.includes('ROLE_ADMIN'))           return '/adminDashboard'
+		if (roles.includes('ROLE_MODERATEUR'))      return '/moderatorDashboard'
+		return '/userDashboard'
+	} catch {
+		return null
+	}
+}
+
 function Header({ scrolled }) {
 	const [menuOpen, setMenuOpen] = useState(false)
-	const navigate = useNavigate()
-	const location = useLocation()
+	const navigate  = useNavigate()
+	const location  = useLocation()
+
+	// Recalcule à chaque changement de route (connexion/déconnexion)
+	// eslint-disable-next-line no-unused-vars
+	const dashPath = getDashPath()
 
 	const handleNavClick = (e, sectionId) => {
 		e.preventDefault()
@@ -46,7 +64,13 @@ function Header({ scrolled }) {
 					<a href="#contact" onClick={(e) => handleNavClick(e, 'contact')} className="nav-link">Contact</a>
 				</nav>
 				<div className="header-actions">
-					<button className="btn btn-primary" onClick={() => { navigate('/connexion'); setMenuOpen(false); }}>Connexion</button>
+					{getDashPath() ? (
+						<button className="btn btn-dashboard" onClick={() => { navigate(getDashPath()); setMenuOpen(false); }}>
+							Mon Dashboard
+						</button>
+					) : (
+						<button className="btn btn-primary" onClick={() => { navigate('/connexion'); setMenuOpen(false); }}>Connexion</button>
+					)}
 					<button
 						className="menu-toggle"
 						onClick={() => setMenuOpen(!menuOpen)}

@@ -20,6 +20,8 @@ function ModerateurDashboard() {
     const [message,  setMessage]  = useState("");
     const [loading,  setLoading]  = useState(true);
     const [confirm,  setConfirm]  = useState(null); // { id, action }
+    const [ownerQuery, setOwnerQuery] = useState("");
+    const [selectedOwnerId, setSelectedOwnerId] = useState(null);
 
     const headers = { Authorization: "Bearer " + token };
 
@@ -101,7 +103,31 @@ function ModerateurDashboard() {
     const nbValid  = events.filter(e => e.status_validation === "valide").length;
     const nbSponsor = events.filter(e => e.is_sponsor).length;
 
-    const displayed = tab === "pending" ? pending : events;
+    const ownerSource = tab === "pending" ? pending : events;
+    const ownerMap = new Map();
+    ownerSource.forEach((event) => {
+        const ownerId = event.user_id;
+        const ownerEmail = event.user_email || "inconnu";
+        if (!ownerId) return;
+        if (!ownerMap.has(ownerId)) {
+            ownerMap.set(ownerId, {
+                user_id: ownerId,
+                user_email: ownerEmail,
+                count: 0,
+            });
+        }
+        ownerMap.get(ownerId).count += 1;
+    });
+    const owners = Array.from(ownerMap.values());
+    const filteredOwners = owners.filter((owner) => {
+        const q = ownerQuery.trim().toLowerCase();
+        if (!q) return true;
+        return String(owner.user_id).includes(q) || owner.user_email.toLowerCase().includes(q);
+    });
+
+    const displayed = ownerSource.filter((event) => (
+        selectedOwnerId ? event.user_id === selectedOwnerId : true
+    ));
 
     /* ── modèle de carte ── */
     const EventCard = ({ event }) => {
@@ -114,7 +140,8 @@ function ModerateurDashboard() {
             <article className="md-card">
                 <div className="md-card-head">
                     <div className="md-chips">
-                        <span className="md-chip">ID {event.id}</span>
+                        <span className="md-chip">User #{event.user_id ?? "-"}</span>
+                        <span className="md-chip md-chip-owner">{event.user_email || "email inconnu"}</span>
                         {isSponsored && <span className="md-chip md-chip-sponsor">⭐ Sponsorisé</span>}
                         <span className={`md-chip ${
                             isValide   ? "md-chip-valid"
@@ -193,6 +220,9 @@ function ModerateurDashboard() {
                     <h1 className="md-title">Dashboard Modérateur</h1>
                 </div>
                 <div className="md-actions">
+                    <button className="md-btn md-btn-home" onClick={() => navigate("/")}>
+                        🏠 Accueil
+                    </button>
                     <button className="md-btn md-btn-ghost" onClick={deconnexion}>
                         Déconnexion
                     </button>
@@ -234,6 +264,44 @@ function ModerateurDashboard() {
                     </button>
                 ))}
             </div>
+
+            <section className="md-owners-panel">
+                <div className="md-owners-head">
+                    <h3>Recherche par utilisateur (ID / email)</h3>
+                    <button
+                        className="md-btn md-btn-ghost"
+                        onClick={() => {
+                            setSelectedOwnerId(null);
+                            setOwnerQuery("");
+                        }}
+                    >
+                        Réinitialiser
+                    </button>
+                </div>
+                <input
+                    className="md-owner-search"
+                    value={ownerQuery}
+                    onChange={(e) => setOwnerQuery(e.target.value)}
+                    placeholder="Ex: 19 ou user@email.com"
+                />
+                <div className="md-owner-list">
+                    {filteredOwners.length === 0 ? (
+                        <p className="md-owner-empty">Aucun utilisateur trouvé.</p>
+                    ) : (
+                        filteredOwners.map((owner) => (
+                            <button
+                                key={owner.user_id}
+                                className={`md-owner-item ${selectedOwnerId === owner.user_id ? "md-owner-item-active" : ""}`}
+                                onClick={() => setSelectedOwnerId(owner.user_id)}
+                            >
+                                <span className="md-owner-main">ID {owner.user_id}</span>
+                                <span className="md-owner-sub">{owner.user_email}</span>
+                                <span className="md-owner-count">{owner.count} event(s)</span>
+                            </button>
+                        ))
+                    )}
+                </div>
+            </section>
 
             {/* ── CONTENU ── */}
             {message && <div className="md-alert">{message}</div>}
