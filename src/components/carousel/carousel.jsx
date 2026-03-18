@@ -99,17 +99,20 @@ const Carousel = () => {
                 </div>
             )}
             <Swiper
+                key={data.length}
                 modules={[Autoplay, EffectCoverflow, Pagination, Navigation]}
                 effect={'coverflow'}
                 grabCursor={true}
                 centeredSlides={true}
                 slidesPerView={'auto'}
                 loop={true}
+                speed={600}
                 initialSlide={0}
                 autoplay={{
                     delay: 3500,
                     disableOnInteraction: false,
                     pauseOnMouseEnter: false,
+                    stopOnLastSlide: false,
                 }}
                 coverflowEffect={{
                     rotate: 0,
@@ -126,8 +129,10 @@ const Carousel = () => {
                 }}
                 className="swiper_container_modern"
             >
-                {data && data.map((event, id) => (
-                    <SwiperSlide key={id}>
+                {/* Triple les slides pour garantir un loop infini (Swiper 12 exige
+                    que la largeur totale dépasse 2× la largeur du viewport) */}
+                {[...data, ...data, ...data].map((event, idx) => (
+                    <SwiperSlide key={idx}>
                         {/* Injection de la couleur pour l'effet Néon */}
                         <div
                             className="glass-card group"
